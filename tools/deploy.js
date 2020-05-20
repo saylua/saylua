@@ -16,18 +16,10 @@ import run from './run';
 // Heroku
 const remote = {
   name: 'heroku',
-  url: 'https://git.heroku.com/<app>.git',
+  url: 'https://git.heroku.com/saylua.git',
   branch: 'master',
-  website: 'https://<app>.herokuapp.com',
+  website: 'https://saylua.herokuapp.com',
 };
-
-// Azure Web Apps
-// const remote = {
-//   name: 'azure',
-//   url: 'https://<user>@<app>.scm.azurewebsites.net:443/<app>.git',
-//   branch: 'master',
-//   website: `http://<app>.azurewebsites.net`,
-// };
 
 const options = { cwd: path.resolve(__dirname, '../build') };
 
