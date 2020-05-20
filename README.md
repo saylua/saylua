@@ -1,2 +1,3 @@
-# saylua
-Code for Saylua
+## Saylua
+
+Befriend sprites in a magical world.
