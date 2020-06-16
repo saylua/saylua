@@ -4,7 +4,7 @@ FROM node:8.16.2-alpine
 WORKDIR /usr/src/app
 
 COPY ./build/package.json .
-COPY ./build/yarn.lock .
+COPY ./build/package-lock.json .
 
 # Install Node.js dependencies
 RUN yarn install --production --no-progress

@@ -27,14 +27,6 @@ const UserProfile = Model.define('UserProfile', {
   gender: {
     type: DataType.STRING(50),
   },
-
-  location: {
-    type: DataType.STRING(100),
-  },
-
-  website: {
-    type: DataType.STRING(255),
-  },
 });
 
 export default UserProfile;
