@@ -19,13 +19,7 @@ export default function Login({ title }) {
     <div className={s.root}>
       <div className={s.container}>
         <h1>{title}</h1>
-        <p className={s.lead}>
-          Log in with your username or company email address.
-        </p>
-        <div className={s.formGroup}>
-          <a href="/login">Login</a>
-        </div>
-        <strong className={s.lineThrough}>OR</strong>
+        <p className={s.lead}>Log in with your username or email address.</p>
         <form method="post">
           <div className={s.formGroup}>
             <label className={s.label} htmlFor="usernameOrEmail">
