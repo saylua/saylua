@@ -31,6 +31,9 @@ export default function Navigation() {
       <Link className={cx(s.link, s.highlight)} to="/register">
         Sign up
       </Link>
+      <a className={cx(s.link, s.highlight)} href="/logout">
+        Log out
+      </a>
     </div>
   );
 }

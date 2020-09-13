@@ -22,13 +22,13 @@ export default function Login({ title }) {
         <p className={s.lead}>Log in with your username or email address.</p>
         <form method="post">
           <div className={s.formGroup}>
-            <label className={s.label} htmlFor="usernameOrEmail">
+            <label className={s.label} htmlFor="username">
               Username or email address:
               <input
                 className={s.input}
-                id="usernameOrEmail"
+                id="username"
                 type="text"
-                name="usernameOrEmail"
+                name="username"
                 autoFocus // eslint-disable-line jsx-a11y/no-autofocus
               />
             </label>

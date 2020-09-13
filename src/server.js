@@ -9,6 +9,7 @@
 
 import path from 'path';
 import express from 'express';
+import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { UnauthorizedError as Jwt401Error } from 'express-jwt';
@@ -29,6 +30,9 @@ import schema from './data/schema';
 // import assets from './asset-manifest.json'; // eslint-disable-line import/no-unresolved
 import chunks from './chunk-manifest.json'; // eslint-disable-line import/no-unresolved
 import config from './config';
+import passport from './passport';
+import User from './data/models/User';
+import { genPassword } from './utils/auth';
 
 process.on('unhandledRejection', (reason, p) => {
   console.error('Unhandled Rejection at:', p, 'reason:', reason);
@@ -58,6 +62,42 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//
+// Authentication
+// -----------------------------------------------------------------------------
+app.use(
+  session({
+    secret: 'svbsfdivnusdfn',
+    resave: true,
+    saveUninitialized: true,
+  }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.post(
+  '/login',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/');
+  },
+);
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
+app.post('/register', async (req, res) => {
+  const { salt, hash } = genPassword(req.body.password);
+  await User.create({
+    username: req.body.username,
+    email: req.body.email,
+    passwordHash: hash,
+    passwordSalt: salt,
+  });
+  res.redirect('/login');
+});
 
 //
 // Register server-side rendering middleware

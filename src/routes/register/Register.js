@@ -18,7 +18,42 @@ export default function Register({ title }) {
     <div className={s.root}>
       <div className={s.container}>
         <h1>{title}</h1>
-        <p>...</p>
+        <form method="post">
+          <div className={s.formGroup}>
+            <label className={s.label} htmlFor="username">
+              Username:
+              <input
+                className={s.input}
+                id="username"
+                type="text"
+                name="username"
+                autoFocus // eslint-disable-line jsx-a11y/no-autofocus
+              />
+            </label>
+          </div>
+          <div className={s.formGroup}>
+            <label className={s.label} htmlFor="email">
+              Email address:
+              <input className={s.input} id="email" type="text" name="email" />
+            </label>
+          </div>
+          <div className={s.formGroup}>
+            <label className={s.label} htmlFor="password">
+              Password:
+              <input
+                className={s.input}
+                id="password"
+                type="password"
+                name="password"
+              />
+            </label>
+          </div>
+          <div className={s.formGroup}>
+            <button className={s.button} type="submit">
+              Register
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
