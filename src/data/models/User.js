@@ -19,6 +19,22 @@ const User = Model.define(
       primaryKey: true,
     },
 
+    username: {
+      type: DataType.STRING(100),
+      allowNull: false,
+      unique: true,
+    },
+
+    passwordHash: {
+      type: DataType.STRING(255),
+      allowNull: false,
+    },
+
+    passwordSalt: {
+      type: DataType.STRING(255),
+      allowNull: false,
+    },
+
     email: {
       type: DataType.STRING(255),
       validate: { isEmail: true },
