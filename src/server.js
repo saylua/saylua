@@ -99,6 +99,10 @@ app.post('/register', async (req, res) => {
   res.redirect('/login');
 });
 
+app.post('/api/me', (req, res) => {
+  res.send(JSON.stringify(req.user || {}));
+});
+
 //
 // Register server-side rendering middleware
 // -----------------------------------------------------------------------------
@@ -139,7 +143,7 @@ app.get('*', async (req, res, next) => {
 
     const data = { ...route };
     data.children = ReactDOM.renderToString(
-      <App context={context} insertCss={insertCss}>
+      <App defaultContext={context} insertCss={insertCss}>
         {route.component}
       </App>,
     );

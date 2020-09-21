@@ -79,7 +79,7 @@ async function onLocationChange(location, action) {
 
     const renderReactApp = isInitialRender ? ReactDOM.hydrate : ReactDOM.render;
     appInstance = renderReactApp(
-      <App context={context} insertCss={insertCss}>
+      <App defaultContext={context} insertCss={insertCss}>
         {route.component}
       </App>,
       container,
