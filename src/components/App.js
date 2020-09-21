@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import StyleContext from 'isomorphic-style-loader/StyleContext';
@@ -27,9 +27,13 @@ import ApplicationContext from './ApplicationContext';
  *   );
  */
 
-export default function App({ context, insertCss, children }) {
+export default function App({ defaultContext, insertCss, children }) {
   // NOTE: If you need to add or modify header, footer etc. of the app,
   // please do that inside the Layout component.
+
+  const [me, setMe] = useState(undefined);
+  const context = { ...defaultContext, me, setMe };
+
   return (
     <StyleContext.Provider value={{ insertCss }}>
       <ApplicationContext.Provider value={{ context }}>
@@ -43,7 +47,7 @@ App.propTypes = {
   // Enables critical path CSS rendering
   // https://github.com/kriasoft/isomorphic-style-loader
   insertCss: PropTypes.func.isRequired,
-  context: PropTypes.shape({
+  defaultContext: PropTypes.shape({
     // Universal HTTP client
     fetch: PropTypes.func.isRequired,
     pathname: PropTypes.string.isRequired,
