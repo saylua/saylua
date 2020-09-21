@@ -68,7 +68,7 @@ app.use(bodyParser.json());
 // -----------------------------------------------------------------------------
 app.use(
   session({
-    secret: 'svbsfdivnusdfn',
+    secret: 'svbsfdivnusdfn', // TODO: Fix this with a proper secret
     resave: true,
     saveUninitialized: true,
   }),
@@ -90,13 +90,18 @@ app.get('/logout', (req, res) => {
 
 app.post('/register', async (req, res) => {
   const { salt, hash } = genPassword(req.body.password);
-  await User.create({
-    username: req.body.username,
-    email: req.body.email,
-    passwordHash: hash,
-    passwordSalt: salt,
-  });
-  res.redirect('/login');
+  try {
+    await User.create({
+      username: req.body.username,
+      email: req.body.email,
+      passwordHash: hash,
+      passwordSalt: salt,
+    });
+    res.redirect('/login');
+  } catch (e) {
+    console.error(e);
+    res.redirect('/register');
+  }
 });
 
 app.post('/api/me', (req, res) => {

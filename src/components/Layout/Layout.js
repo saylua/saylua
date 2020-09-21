@@ -23,7 +23,6 @@ export default function Layout({ children }) {
   return (
     <>
       <Header />
-      Saylua
       {children}
       <Feedback />
       <Footer />
