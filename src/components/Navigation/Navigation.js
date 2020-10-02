@@ -30,7 +30,7 @@ export default function Navigation() {
 
   const loginBox =
     context.me && context.me.username ? (
-      <a className={cx(s.link, s.highlight)} href="/logout">
+      <a className={cx(s.link)} href="/logout">
         Log out
       </a>
     ) : (
