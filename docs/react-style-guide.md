@@ -126,14 +126,16 @@ Navigation.propTypes = { items: PropTypes.array.isRequired };
 ```jsx
 // Navigation.js
 import React from 'react';
-import PropTypes from 'prop-types';
-import useStyles from 'isomorphic-style-loader/useStyles';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.scss';
 
-export default function Navigation() {
-  useStyles(s);
+type PropTypes = {
+  className: string,
+};
+
+function Navigation(props: PropTypes) {
   return (
-    <nav className={`${s.root} ${this.props.className}`}>
+    <nav className={`${s.root} ${props.className}`}>
       <ul className={s.items}>
         <li className={`${s.item} ${s.selected}`}>
           <a className={s.link} href="/products">
@@ -150,7 +152,7 @@ export default function Navigation() {
   );
 }
 
-Navigation.propTypes = { className: PropTypes.string };
+export default withStyles(Navigation, s);
 ```
 
 ### Use higher-order components
@@ -204,11 +206,14 @@ export default withViewport;
 
 ```js
 // MyComponent.js
+import React from 'react';
 import withViewport from './withViewport';
 
-function MyComponent(props) {
-  const { width, height } = props.viewport;
-  return <div>{`Viewport: ${width}x${height}`}</div>;
+class MyComponent {
+  render() {
+    let { width, height } = this.props.viewport;
+    return <div>{`Viewport: ${width}x${height}`}</div>;
+  }
 }
 
 export default withViewport(MyComponent);

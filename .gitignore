@@ -6,6 +6,9 @@ node_modules/
 # Compiled output
 build
 
+# Generate Types
+__generated__
+
 # Runtime data
 database.sqlite
 
@@ -24,9 +27,6 @@ yarn-error.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
-# Secrets
-.env
 
 # Misc
 .DS_Store

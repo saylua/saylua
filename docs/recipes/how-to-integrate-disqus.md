@@ -6,7 +6,6 @@ https://disqus.com/admin/create/
 
 ```js
 import React from 'react';
-import PropTypes from 'prop-types';
 
 const SHORTNAME = 'example';
 const WEBSITE_URL = 'http://www.example.com';
@@ -22,13 +21,11 @@ function renderDisqus() {
   }
 }
 
-class DisqusThread extends React.Component {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
-  };
-
+class DisqusThread extends React.Component<{
+  id: string,
+  title: string,
+  path: string,
+}> {
   shouldComponentUpdate(nextProps) {
     return (
       this.props.id !== nextProps.id ||
@@ -65,17 +62,22 @@ export default DisqusThread;
 #### `MyComponent.js`
 
 ```js
+import React from 'react';
 import DisqusThread from './DisqusThread.js';
 
-export default function MyComponent() {
-  return (
-    <div>
-      <DisqusThread
-        id="e94d73ff-fd92-467d-b643-c86889f4b8be"
-        title="How to integrate Disqus into ReactJS App"
-        path="/blog/123-disquss-integration"
-      />
-    </div>
-  );
+class MyComponent extends React.Component {
+  render() {
+    return (
+      <div>
+        <DisqusThread
+          id="e94d73ff-fd92-467d-b643-c86889f4b8be"
+          title="How to integrate Disqus into ReactJS App"
+          path="/blog/123-disquss-integration"
+        />
+      </div>
+    );
+  }
 }
+
+export default MyComponent;
 ```
