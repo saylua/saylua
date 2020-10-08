@@ -15,7 +15,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
-import { getDataFromTree } from 'react-apollo';
+import { getDataFromTree } from '@apollo/react-ssr';
 import { AppContextTypes } from './context';
 import createApolloClient from './core/createApolloClient/createApolloClient.server';
 import App from './components/App';

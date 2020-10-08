@@ -13,6 +13,12 @@ import sequelize from '../sequelize';
 class User extends Model {
   public id!: string;
 
+  public username!: string;
+
+  public passwordHash!: string;
+
+  public passwordSalt!: string;
+
   public email!: string;
 
   public emailConfirmed!: boolean;
@@ -28,6 +34,19 @@ User.init(
       type: DataType.UUID,
       defaultValue: DataType.UUIDV1,
       primaryKey: true,
+    },
+
+    username: {
+      type: DataType.STRING(100),
+      unique: true,
+    },
+
+    passwordHash: {
+      type: DataType.STRING(255),
+    },
+
+    passwordSalt: {
+      type: DataType.STRING(255),
     },
 
     email: {

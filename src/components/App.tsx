@@ -8,7 +8,7 @@
  */
 
 import React, { ReactNode } from 'react';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/client';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import AppContext, { AppContextTypes } from '../context';
 
