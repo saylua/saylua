@@ -13,15 +13,7 @@ import sequelize from '../sequelize';
 class UserProfile extends Model {
   public userId!: string;
 
-  public displayName!: string;
-
-  public picture!: string;
-
-  public gender!: string;
-
-  public location!: string;
-
-  public website!: string;
+  public pronouns!: string;
 }
 
 UserProfile.init(
@@ -31,23 +23,7 @@ UserProfile.init(
       primaryKey: true,
     },
 
-    displayName: {
-      type: DataType.STRING(100),
-    },
-
-    picture: {
-      type: DataType.STRING(255),
-    },
-
-    gender: {
-      type: DataType.STRING(50),
-    },
-
-    location: {
-      type: DataType.STRING(100),
-    },
-
-    website: {
+    pronouns: {
       type: DataType.STRING(255),
     },
   },

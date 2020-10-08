@@ -1,4 +1,4 @@
-import { User, UserClaim, UserLogin, UserProfile } from '../../../models';
+import { User, UserLogin, UserProfile } from '../../../models';
 
 export const queries = [
   `
@@ -20,7 +20,6 @@ export const resolvers = {
         where: { email: req.user.email },
         include: [
           { model: UserLogin, as: 'logins' },
-          { model: UserClaim, as: 'claims' },
           { model: UserProfile, as: 'profile' },
         ],
       });

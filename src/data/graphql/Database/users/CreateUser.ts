@@ -1,23 +1,13 @@
 import { User, UserProfile } from '../../../models';
+import { genPassword } from '../../../../utils/auth';
 
 export const schema = [
   `
   # User profile data for creating a new local database user account
   input UserProfile {
-    # A display name for the logged-in user
-    displayName: String!
 
-    # A profile picture URL
-    picture: String
-
-    # The user's gender
-    gender: String
-
-    # The user's location
-    location: String
-
-    # A website URL
-    website: String
+    # The user's pronouns
+    pronouns: String
   }
 `,
 ];
@@ -26,7 +16,13 @@ export const mutation = [
   `
   # Creates a new user and profile in the local database
   databaseCreateUser(
-    # The email of the new user, this email must be unique in the database
+    # The username of the new user, must be unique
+    username: String!
+
+    # The password of the new user
+    password: String!
+
+    # The email of the new user, must be unique
     email: String!
 
     # User profile information for creating a new local database user account
@@ -47,8 +43,12 @@ export const resolvers = {
       }
 
       // Create new user with profile in database
+      const { salt, hash } = genPassword(args.password);
       const user = await User.create(
         {
+          username: args.username,
+          passwordHash: hash,
+          passwordSalt: salt,
           email: args.email,
           profile: {
             ...args.profile,

@@ -1,4 +1,4 @@
-import { ApolloClient } from 'apollo-client';
+import { ApolloClient } from '@apollo/client';
 import { from } from 'apollo-link';
 import { onError } from 'apollo-link-error';
 import { HttpLink } from 'apollo-link-http';
