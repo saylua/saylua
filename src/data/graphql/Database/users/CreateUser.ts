@@ -3,13 +3,12 @@ import { genPassword } from '../../../../utils/auth';
 
 export const schema = [
   `
-  # User profile data for creating a new local database user account
-  input UserProfile {
-
-    # The user's pronouns
-    pronouns: String
-  }
-`,
+    # User profile data for creating a new local database user account
+    input UserProfile {
+      # The user's pronouns
+      pronouns: String
+    }
+  `,
 ];
 
 export const mutation = [

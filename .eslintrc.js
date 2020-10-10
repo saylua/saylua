@@ -137,6 +137,7 @@ module.exports = {
       'ts': 'never',
       'tsx': 'never',
       'css': 'always',
+      'json': 'always',
     }],
 
     'no-unused-vars': 'off',

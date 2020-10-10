@@ -6,10 +6,11 @@ import {
   queries as GetAllUsersQueries,
   resolvers as GetAllUsersResolver,
 } from './users/GetAllUsers';
+
 import {
-  queries as GetLoggedInUserQueries,
-  resolvers as GetLoggedInUserResolver,
-} from './users/GetLoggedInUser';
+  queries as CurrentUserQueries,
+  resolvers as CurrentUserResolver,
+} from './users/CurrentUser';
 
 /** * Mutations ** */
 import {
@@ -18,14 +19,17 @@ import {
   resolvers as CreateUserResolver,
 } from './users/CreateUser';
 
+import { mutation as Login, resolvers as LoginResolver } from './users/Login';
+
 export const schema = [...GetAllUsers, ...CreateUserInput];
 
-export const queries = [...GetAllUsersQueries, ...GetLoggedInUserQueries];
+export const queries = [...GetAllUsersQueries, ...CurrentUserQueries];
 
-export const mutations = [...CreateUser];
+export const mutations = [...CreateUser, ...Login];
 
 export const resolvers = merge(
   GetAllUsersResolver,
-  GetLoggedInUserResolver,
+  CurrentUserResolver,
   CreateUserResolver,
+  LoginResolver,
 );

@@ -7,13 +7,20 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+/**
+ * TODO(Mike): Remove initializers once this bug is fixed
+ * https://github.com/sequelize/sequelize/issues/10579
+ */
+
 import DataType, { Model } from 'sequelize';
 import sequelize from '../sequelize';
 
 class UserProfile extends Model {
-  public userId!: string;
+  // @ts-ignore Property is used before its initialization
+  public userId: string = this.userId;
 
-  public pronouns!: string;
+  // @ts-ignore Property is used before its initialization
+  public pronouns: string = this.pronouns;
 }
 
 UserProfile.init(

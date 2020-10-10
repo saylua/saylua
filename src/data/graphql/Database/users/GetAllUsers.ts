@@ -53,7 +53,7 @@ export const resolvers = {
           { model: UserProfile, as: 'profile' },
         ],
       });
-      return users.toJSON();
+      return users;
     },
     async databaseGetUser(parent: any, { email }: any) {
       const user = await User.findOne({
@@ -63,7 +63,7 @@ export const resolvers = {
           { model: UserProfile, as: 'profile' },
         ],
       });
-      return user.toJSON();
+      return user;
     },
   },
 };

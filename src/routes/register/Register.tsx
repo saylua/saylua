@@ -13,14 +13,23 @@ import { useMutation } from '@apollo/client';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import s from './Register.css';
 
-const CREATE_USER = gql`mutation createUser($username: String!, $password: String!, $email: String!, $pronouns: String) {
-  databaseCreateUser(
-    username: $username,
-    password: $password,
-    email: $email,
-    profile: {pronouns: $pronouns}
-  ) {username}
-}`;
+const CREATE_USER = gql`
+  mutation createUser(
+    $username: String!
+    $password: String!
+    $email: String!
+    $pronouns: String
+  ) {
+    databaseCreateUser(
+      username: $username
+      password: $password
+      email: $email
+      profile: { pronouns: $pronouns }
+    ) {
+      username
+    }
+  }
+`;
 
 type PropTypes = {
   title: string;
@@ -31,23 +40,19 @@ const Register = (props: PropTypes) => {
 
   const [createUser] = useMutation<any>(CREATE_USER);
 
-
   const formRef: React.RefObject<any> = useRef(null);
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef || !formRef.current) return;
     const inputs = formRef.current.elements;
-    console.log("Form data is coming soon!!!!");
-    console.log(inputs.namedItem('username').value);
-    console.log(inputs.namedItem('email').value);
-    console.log(inputs.namedItem('password').value);
-    console.log(inputs.namedItem('pronouns').value);
-    createUser({variables: {
-      username: inputs.namedItem('username').value,
-      email: inputs.namedItem('email').value,
-      password: inputs.namedItem('password').value,
-      pronouns: inputs.namedItem('pronouns').value,
-    }});
+    createUser({
+      variables: {
+        username: inputs.namedItem('username').value,
+        email: inputs.namedItem('email').value,
+        password: inputs.namedItem('password').value,
+        pronouns: inputs.namedItem('pronouns').value,
+      },
+    });
   };
 
   return (
@@ -55,7 +60,7 @@ const Register = (props: PropTypes) => {
       <div className={s.container}>
         <h1>{props.title}</h1>
         <p className={s.lead}>Register to adopt sprites!</p>
-        <form method="post" ref={formRef} onSubmit={ submitHandler }>
+        <form method="post" ref={formRef} onSubmit={submitHandler}>
           <div className={s.formGroup}>
             <label className={s.label} htmlFor="username">
               Username:
