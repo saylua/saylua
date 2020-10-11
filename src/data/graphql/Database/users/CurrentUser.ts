@@ -2,7 +2,7 @@ export const queries = [
   `
   # Retrieves information about the currently logged-in user
   currentUser: DatabaseUser
-`,
+  `,
 ];
 
 export const resolvers = {

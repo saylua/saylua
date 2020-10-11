@@ -34,6 +34,7 @@ const Login = (props: PropTypes) => {
 
   const [login] = useMutation<any>(LOGIN_USER);
 
+  // TODO(Mike): Replace this form logic with Formik or similar in the future.
   const formRef: React.RefObject<any> = useRef(null);
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();

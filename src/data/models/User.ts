@@ -12,6 +12,11 @@
  * https://github.com/sequelize/sequelize/issues/10579
  */
 
+/**
+ * TODO(Mike): Resolve issues with child tables (i.e. UserProfile) being
+ * undefined in relation to the above bug.
+ */
+
 import DataType, { Model } from 'sequelize';
 import sequelize from '../sequelize';
 

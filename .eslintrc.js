@@ -122,6 +122,7 @@ module.exports = {
     'react/destructuring-assignment': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/static-property-placement': 'off',
+    'react/require-default-props': 'off',
 
     // TypeScript checks prop-types
     'react/prop-types': 'off',
