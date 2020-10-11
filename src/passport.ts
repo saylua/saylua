@@ -7,15 +7,46 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-/**
- * Passport.js reference implementation.
- * The database schema used in this sample is available at
- * https://github.com/membership/membership.db/tree/master/postgres
- */
-
 import passport from 'passport';
+import { GraphQLLocalStrategy } from 'graphql-passport';
 
-  // TODO(Mike): Set up passport local here
+import { User } from './data/models';
+import { validPassword } from './utils/auth';
 
+passport.use(
+  new GraphQLLocalStrategy(
+    async (
+      username: any,
+      password: any,
+      done: (error?: Error, user?: User) => void,
+    ) => {
+      const user = await User.findOne({ where: { username } });
+
+      if (!user) {
+        return done(new Error('User not found'));
+      }
+      if (!validPassword(password, user.passwordHash, user.passwordSalt)) {
+        return done(new Error('Invalid password'));
+      }
+      return done(undefined, user);
+    },
+  ),
+);
+
+passport.serializeUser(
+  (user: User, done: (error?: Error, id?: string) => void) => {
+    done(undefined, user.id);
+  },
+);
+
+passport.deserializeUser(
+  async (id: string, done: (error?: Error, user?: User) => void) => {
+    const user = await User.findOne({ where: { id } });
+    if (!user) {
+      return done(new Error('User not found'));
+    }
+    return done(undefined, user);
+  },
+);
 
 export default passport;

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import 'express-serve-static-core';
 
 declare module 'express-serve-static-core' {

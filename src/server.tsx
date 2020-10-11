@@ -14,8 +14,11 @@ import bodyParser from 'body-parser';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
+import session from 'express-session';
+import { v4 as uuidv4 } from 'uuid';
 import { ApolloServer, makeExecutableSchema } from 'apollo-server-express';
 import { getDataFromTree } from '@apollo/react-ssr';
+import { buildContext } from 'graphql-passport';
 import { AppContextTypes } from './context';
 import createApolloClient from './core/createApolloClient/createApolloClient.server';
 import App from './components/App';
@@ -65,9 +68,18 @@ app.use(bodyParser.json());
 //
 // Authentication
 // -----------------------------------------------------------------------------
-// TODO(Mike): Add passport-local handlers here
+
+app.use(
+  session({
+    genid: () => uuidv4(),
+    secret: config.sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
 
 app.use(passport.initialize());
+app.use(passport.session());
 
 //
 // Register API middleware
@@ -80,7 +92,8 @@ const server = new ApolloServer({
   introspection: __DEV__,
   playground: __DEV__,
   debug: __DEV__,
-  context: ({ req }: { req: Request }) => ({ req }),
+  context: ({ req, res }: { req: Request; res: Response }) =>
+    buildContext({ req, res }),
 });
 server.applyMiddleware({ app });
 

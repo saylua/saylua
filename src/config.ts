@@ -45,5 +45,5 @@ export default {
   },
 
   // Authentication
-  // TODO(Mike): Put passport local secret here
+  sessionSecret: process.env.SESSION_SECRECT || 'fakesession1234',
 };

@@ -7,25 +7,43 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
+/**
+ * TODO(Mike): Remove initializers once this bug is fixed
+ * https://github.com/sequelize/sequelize/issues/10579
+ */
+
+/**
+ * TODO(Mike): Resolve issues with child tables (i.e. UserProfile) being
+ * undefined in relation to the above bug.
+ */
+
 import DataType, { Model } from 'sequelize';
 import sequelize from '../sequelize';
 
 class User extends Model {
-  public id!: string;
+  // @ts-ignore Property is used before its initialization
+  public id: string = this.id;
 
-  public username!: string;
+  // @ts-ignore Property is used before its initialization
+  public username: string = this.username;
 
-  public passwordHash!: string;
+  // @ts-ignore Property is used before its initialization
+  public passwordHash: string = this.passwordHash;
 
-  public passwordSalt!: string;
+  // @ts-ignore Property is used before its initialization
+  public passwordSalt: string = this.passwordSalt;
 
-  public email!: string;
+  // @ts-ignore Property is used before its initialization
+  public email: string = this.email;
 
-  public emailConfirmed!: boolean;
+  // @ts-ignore Property is used before its initialization
+  public emailConfirmed: boolean = this.emailConfirmed;
 
-  public readonly createdAt!: Date;
+  // @ts-ignore Property is used before its initialization
+  public readonly createdAt: Date = this.createdAt;
 
-  public readonly updatedAt!: Date;
+  // @ts-ignore Property is used before its initialization
+  public readonly updatedAt: Date = this.updatedAt;
 }
 
 User.init(
@@ -51,6 +69,7 @@ User.init(
 
     email: {
       type: DataType.STRING(255),
+      unique: true,
       validate: { isEmail: true },
     },
 
@@ -61,7 +80,7 @@ User.init(
   },
   {
     sequelize,
-    indexes: [{ fields: ['email'] }],
+    indexes: [{ fields: ['email', 'username'] }],
   },
 );
 
