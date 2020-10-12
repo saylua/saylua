@@ -13,8 +13,23 @@ import useStyles from 'isomorphic-style-loader/useStyles';
 import s from './Navigation.css';
 import Link from '../Link';
 
+import {
+  useUserContextQuery,
+  useLogoutMutation,
+} from '../../__generated__/dataBinders';
+
 const Navigation: ComponentType<{}> = () => {
   useStyles(s);
+
+  const { data } = useUserContextQuery();
+  const [logoutUser, { client }] = useLogoutMutation();
+  const username = data && data.currentUser && data.currentUser.username;
+
+  const logout = async () => {
+    await logoutUser();
+    client.resetStore();
+  };
+
   return (
     <div className={s.root} role="navigation">
       <Link className={s.link} to="/about">
@@ -24,13 +39,24 @@ const Navigation: ComponentType<{}> = () => {
         Contact
       </Link>
       <span className={s.spacer}> | </span>
-      <Link className={s.link} to="/login">
-        Log in
-      </Link>
-      <span className={s.spacer}>or</span>
-      <Link className={cx(s.link, s.highlight)} to="/register">
-        Sign up
-      </Link>
+      {username ? (
+        <>
+          <span>Hello: {username}</span>
+          <button type="button" onClick={logout}>
+            Log out
+          </button>
+        </>
+      ) : (
+        <>
+          <Link className={s.link} to="/login">
+            Log in
+          </Link>
+          <span className={s.spacer}>or</span>
+          <Link className={cx(s.link, s.highlight)} to="/register">
+            Sign up
+          </Link>
+        </>
+      )}
     </div>
   );
 };

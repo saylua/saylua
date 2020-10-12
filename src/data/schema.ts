@@ -36,7 +36,7 @@ import {
 
 const RootQuery = [
   `
-  
+
   # # React-Starter-Kit Querying API
   # ### This GraphQL schema was built with [Apollo GraphQL-Tools](https://github.com/apollographql/graphql-tools)
   # _Build, mock, and stitch a GraphQL schema using the schema language_
@@ -74,12 +74,11 @@ const Mutation = [
 
 const SchemaDefinition = [
   `
-  
-  schema {
-    query: RootQuery
-    mutation: Mutation
-  }
-`,
+    schema {
+      query: RootQuery
+      mutation: Mutation
+    }
+  `,
 ];
 
 // Merge all of the resolver objects together
