@@ -32,7 +32,7 @@ export const mutation = [
 
 export const resolvers = {
   Mutation: {
-    async databaseCreateUser(parent: any, args: any) {
+    async databaseCreateUser(parent: any, args: any, context: any) {
       // If user already exists, throw error
       const lookupUser = await User.findOne({ where: { email: args.email } });
 
@@ -57,6 +57,8 @@ export const resolvers = {
           include: [{ model: UserProfile, as: 'profile' }],
         },
       );
+
+      await context.login(user);
 
       return user;
     },

@@ -8,28 +8,10 @@
  */
 
 import React, { useRef } from 'react';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
 import useStyles from 'isomorphic-style-loader/useStyles';
 import s from './Register.css';
 
-const CREATE_USER = gql`
-  mutation createUser(
-    $username: String!
-    $password: String!
-    $email: String!
-    $pronouns: String
-  ) {
-    databaseCreateUser(
-      username: $username
-      password: $password
-      email: $email
-      profile: { pronouns: $pronouns }
-    ) {
-      username
-    }
-  }
-`;
+import { useCreateUserMutation } from '../../__generated__/dataBinders';
 
 type PropTypes = {
   title: string;
@@ -38,14 +20,14 @@ type PropTypes = {
 const Register = (props: PropTypes) => {
   useStyles(s);
 
-  const [createUser] = useMutation<any>(CREATE_USER);
+  const [createUser, { client }] = useCreateUserMutation();
 
   const formRef: React.RefObject<any> = useRef(null);
-  const submitHandler = (e: React.FormEvent) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef || !formRef.current) return;
     const inputs = formRef.current.elements;
-    createUser({
+    await createUser({
       variables: {
         username: inputs.namedItem('username').value,
         email: inputs.namedItem('email').value,
@@ -53,6 +35,7 @@ const Register = (props: PropTypes) => {
         pronouns: inputs.namedItem('pronouns').value,
       },
     });
+    client.resetStore();
   };
 
   return (

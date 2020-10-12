@@ -9,21 +9,9 @@
 
 import React, { useRef } from 'react';
 import useStyles from 'isomorphic-style-loader/useStyles';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
 import s from './Login.css';
 
-const LOGIN_USER = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      username
-      email
-      profile {
-        pronouns
-      }
-    }
-  }
-`;
+import { useLoginMutation } from '../../__generated__/dataBinders';
 
 type PropTypes = {
   title: string;
@@ -32,20 +20,25 @@ type PropTypes = {
 const Login = (props: PropTypes) => {
   useStyles(s);
 
-  const [login] = useMutation<any>(LOGIN_USER);
+  const [login, { client }] = useLoginMutation();
 
   // TODO(Mike): Replace this form logic with Formik or similar in the future.
   const formRef: React.RefObject<any> = useRef(null);
-  const submitHandler = (e: React.FormEvent) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef || !formRef.current) return;
     const inputs = formRef.current.elements;
-    login({
-      variables: {
-        username: inputs.namedItem('usernameOrEmail').value,
-        password: inputs.namedItem('password').value,
-      },
-    });
+    try {
+      await login({
+        variables: {
+          username: inputs.namedItem('usernameOrEmail').value,
+          password: inputs.namedItem('password').value,
+        },
+      });
+      client.resetStore();
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <div className={s.root}>

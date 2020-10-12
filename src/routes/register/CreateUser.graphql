@@ -1,0 +1,15 @@
+mutation createUser(
+  $username: String!
+  $password: String!
+  $email: String!
+  $pronouns: String
+) {
+  databaseCreateUser(
+    username: $username
+    password: $password
+    email: $email
+    profile: { pronouns: $pronouns }
+  ) {
+    username
+  }
+}
