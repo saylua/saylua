@@ -65,6 +65,8 @@ module.exports = {
 
     "react/forbid-prop-types": "off",
     "react/destructuring-assignment": "off",
+
+    "import/extensions": ["warn", "never"],
   },
 
   settings: {
@@ -73,6 +75,7 @@ module.exports = {
     "import/resolver": {
       node: {
         moduleDirectory: ["node_modules", "src"],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
       },
     },
   },
