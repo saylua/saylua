@@ -1,37 +1,21 @@
-const express = require("express");
-const webpackDevMiddleware = require("webpack-dev-middleware");
-const webpackHotMiddleware = require("webpack-hot-middleware");
-const webpack = require("webpack");
+const Koa = require("koa");
+const serve = require("koa-static");
+const koaWebpack = require("koa-webpack");
 const webpackConfig = require("./webpack.config.js");
 
-const app = express();
+const serverWrapper = async () => {
+  const app = new Koa();
 
-const compiler = webpack(webpackConfig);
+  const middleware = await koaWebpack({ config: webpackConfig });
+  app.use(middleware);
 
-app.use(
-  webpackDevMiddleware(compiler, {
-    hot: true,
-    filename: "bundle.js",
-    publicPath: "/",
-    stats: {
-      colors: true,
-    },
-    historyApiFallback: true,
-  })
-);
+  app.use(serve(`${__dirname}/www`));
 
-app.use(
-  webpackHotMiddleware(compiler, {
-    log: console.log,
-    path: "/__webpack_hmr",
-    heartbeat: 10 * 1000,
-  })
-);
+  const server = app.listen(3000, () => {
+    const host = server.address().address;
+    const { port } = server.address();
+    console.log("Example app listening at http://%s:%s", host, port);
+  });
+};
 
-app.use(express.static(`${__dirname}/www`));
-
-const server = app.listen(3000, () => {
-  const host = server.address().address;
-  const { port } = server.address();
-  console.log("Example app listening at http://%s:%s", host, port);
-});
+serverWrapper();

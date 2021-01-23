@@ -9,6 +9,7 @@ const config = {
   context: path.join(__dirname, "src"),
   entry: ["webpack-hot-middleware/client?path=/__webpack_hmr", "./main.ts"],
   output: {
+    publicPath: "/",
     path: path.join(__dirname, "www"),
     filename: "bundle.js",
   },
@@ -46,7 +47,6 @@ const config = {
     },
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
 };
 
 module.exports = config;
