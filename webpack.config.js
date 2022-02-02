@@ -1,18 +1,61 @@
+const webpack = require('webpack');
 const path = require('path');
+const fs = require('fs');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-const config = {
+const clientBase = path.join(__dirname, 'client');
+
+// Base Webpack config
+const baseConfig = {
   mode: isDevelopment ? 'development' : 'production',
   devtool: 'cheap-source-map',
-  context: path.join(__dirname, 'src'),
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+    ],
+  },
+};
+
+// Server Webpack config
+const nodeModules = {};
+fs.readdirSync('node_modules')
+  .filter((x) => ['.bin'].indexOf(x) === -1)
+  .forEach((mod) => {
+    nodeModules[mod] = 'commonjs ' + mod;
+  });
+
+const serverConfig = {
+  ...baseConfig,
+  entry: './server/main.ts',
+  target: 'node',
+  output: {
+    path: path.join(__dirname, 'server/build'),
+    filename: 'backend.js',
+  },
+  plugins: [
+    // Make source maps work in a server side environment.
+    new webpack.BannerPlugin('require("source-map-support").install();',
+      { raw: true, entryOnly: false })
+  ],
+  externals: nodeModules,
+}
+
+// Client Webpack config
+const clientConfig = {
+  ...baseConfig,
+  context: path.join(clientBase, 'src'),
   entry: ['./main.ts'],
   devServer: {
     client: {
       overlay: true,
     },
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(clientBase, 'public'),
       serveIndex: true,
       watch: true,
     },
@@ -22,16 +65,12 @@ const config = {
     hot: true,
   },
   output: {
-    path: path.join(__dirname, 'public/build'),
+    path: path.join(clientBase, 'public/build'),
     filename: 'bundle.min.js',
   },
   module: {
     rules: [
-      {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        use: ['babel-loader'],
-      },
+      ...baseConfig.module.rules,
       {
         test: /\.css$/i,
         use: [
@@ -57,4 +96,4 @@ const config = {
   plugins: [],
 };
 
-module.exports = config;
+module.exports = [serverConfig, clientConfig];
