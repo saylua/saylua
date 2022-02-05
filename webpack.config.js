@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const fs = require('fs');
+const nodeExternals = require('webpack-node-externals');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -19,30 +19,30 @@ const baseConfig = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+  },
 };
 
 // Server Webpack config
-const nodeModules = {};
-fs.readdirSync('node_modules')
-  .filter((x) => ['.bin'].indexOf(x) === -1)
-  .forEach((mod) => {
-    nodeModules[mod] = 'commonjs ' + mod;
-  });
-
 const serverConfig = {
   ...baseConfig,
-  entry: './server/main.ts',
+  entry: ['./server/main.ts'],
   target: 'node',
   output: {
-    path: path.join(__dirname, 'server/build'),
-    filename: 'backend.js',
+    path: __dirname,
+    filename: 'server.min.js',
+    // Prevent HMR-related file spam.
+    // See: https://stackoverflow.com/a/49642379
+    hotUpdateChunkFilename: 'hot/hot-update.js',
+    hotUpdateMainFilename: 'hot/hot-update.json',
   },
   plugins: [
     // Make source maps work in a server side environment.
     new webpack.BannerPlugin('require("source-map-support").install();',
       { raw: true, entryOnly: false })
   ],
-  externals: nodeModules,
+  externals: [nodeExternals()],
 }
 
 // Client Webpack config
@@ -88,10 +88,10 @@ const clientConfig = {
     ],
   },
   resolve: {
+    ...baseConfig.resolve,
     alias: {
       'react-dom': '@hot-loader/react-dom',
     },
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   plugins: [],
 };

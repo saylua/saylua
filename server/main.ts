@@ -1,9 +1,14 @@
-import Koa, { Context } from 'koa';
+import express from 'express';
+import {useDevMiddleware} from './useDevMiddleware';
 
-const app = new Koa();
+const app = express();
 
-app.use((ctx: Context) => {
-  ctx.body = 'Hello World';
-});
+app.use(express.static(__dirname + '/client/public'));
 
-app.listen(8081);
+const isDev = process.env.NODE_ENV !== 'production';
+
+if (isDev) {
+  useDevMiddleware(app);
+}
+
+app.listen(80);
