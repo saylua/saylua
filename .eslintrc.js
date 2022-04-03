@@ -66,6 +66,15 @@ module.exports = {
     'react/forbid-prop-types': 'off',
     'react/destructuring-assignment': 'off',
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+
+    // Allow labels to be associated via nesting without an htmlFor id
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        assert: 'either',
+        depth: 3,
+      },
+    ],
   },
 
   settings: {
