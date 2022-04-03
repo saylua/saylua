@@ -1,7 +1,7 @@
 {
-  "name": "react-starter",
+  "name": "saylua",
   "version": "0.1.0",
-  "description": "Simple React boilerplate for client side projects",
+  "description": "A modern take on the classic virtual petsite genre.",
   "main": "src/main.js",
   "scripts": {
     "compile": "webpack",
@@ -12,14 +12,14 @@
     "deploy": "gh-pages -d public"
   },
   "keywords": [
-    "React",
-    "Starter"
+    "Saylua",
+    "virtual petsite"
   ],
   "author": "Tiff Zhang",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/tiffz/react-starter.git"
+    "url": "git://github.com/saylua/saylua.git"
   },
   "postcss": {
     "plugins": {
