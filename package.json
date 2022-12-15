@@ -39,7 +39,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/webpack-hot-middleware": "^2.25.5",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "koa-static": "^5.0.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
